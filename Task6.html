@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Score Manager</title>
+  <link rel="stylesheet" href="Task2.css">
+</head>
+<body>
+  <h1>Student Score Manager</h1>
+  <input type="text" id="studentName" placeholder="Student Name">
+  <input type="number" id="studentScore" placeholder="Score (0-100)">
+  <button onclick="addStudent()">Add Student</button>
+  <button onclick="calculateAverage()">Calculate Average</button>
+  <button onclick="markPassed()">Mark Passed</button>
+  <button onclick="markFailed()">Mark Failed</button>
+  <button onclick="resetApp()">Reset</button>
+
+  <h2>Students</h2>
+  <ul id="studentList"></ul>
+
+  <h3>Average Score: <span id="avgScore">-</span></h3>
+
+  <script src="Task2.js"></script>
+</body>
+</html>

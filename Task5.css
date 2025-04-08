@@ -1,0 +1,15 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  #colorBox {
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    margin: 1rem auto;
+    background-color: #ddd;
+    border: 1px solid #aaa;
+  }
+  
