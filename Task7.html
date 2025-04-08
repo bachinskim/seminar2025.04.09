@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <label for="address">Specify address:</label>
+    <input type="text" id="address" placeholder="Please enter the address." />
+    <button onclick="useAddress()">What is the weather at the addres?</button>
+    <table id="weatherTable">
+      <tr>
+        <td>Time</td>
+        <td>Temperature</td>
+      </tr>
+    </table>
+    <div id="highchartsContainer"></div>
+    <script>
+      function useAddress() {
+        let addressText = document.getElementById("address").value;
+        console.log("Original addressText: " + addressText);
+        console.log("Encoded addressText: " + encodeURIComponent(addressText));
+        let addressCodingUrl = 'https://ws.geonorge.no/adresser/v1/sok?sok=' +
+        encodeURIComponent(addressText) +
+        '&fuzzy=false&utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true';
+        fetch(addressCodingUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            coordinatesUrl =
+              "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=" +
+              data.adresser[0].representasjonspunkt.lat +
+              "&lon=" +
+              data.adresser[0].representasjonspunkt.lon;
+            console.log(coordinatesUrl);
+            return fetch(coordinatesUrl);
+          })
+          .then((response) => response.json())
+          .then((weatherData) => {
+            console.log(weatherData);
+            let table = document.getElementById("weatherTable");
+
+            for (let i = 0; i < weatherData.properties.timeseries.length; i++) {
+              let rowData = weatherData.properties.timeseries[i];
+              let row = createTableRow(rowData);
+              table.appendChild(row);
+            }
+
+            // TODO: Collect the temperature data into an array and use it 
+            // as an input data to create a chart
+          });
+
+        function createTableRow(data) {
+          console.log(data);
+          let time = data.time;
+          let temperature = data.data.instant.details.air_temperature;
+          let row = document.createElement("tr");
+          let timeCell = document.createElement("td");
+          let date = new Date(time);
+          timeCell.textContent = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+          row.appendChild(timeCell);
+
+          let temperatureCell = document.createElement("td");
+          temperatureCell.textContent = temperature;
+          row.appendChild(temperatureCell);
+          return row;
+        }
+      }
+    </script>
+  </body>
+</html>
